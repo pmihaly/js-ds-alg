@@ -5,7 +5,7 @@
 // két csomópontot csak egy edge kötheti össze, több nem
 
 // Itt láthatóak néhány repőtértnek a nevei, és a légi folyosók
-// Ábrázold a légi folyosókat egy mátrixban, vagy
+// 1. Ábrázold a légi folyosókat egy mátrixban, vagy
 // szomszédossági táblában (adjacency list)
 //
 // (mivel kevés a légi járat a lehetséges repülőtér-kombinációkhoz képest,
@@ -31,7 +31,8 @@ const routes = [
 const adjacencyList = new Map();
 
 /**
- * Egy repülőteér inicializálása, egy repülőtér egy (talán üres) kulcs.
+ * Egy repülőtér inicializálása, egy repülőtér egy kulcs
+ * Értékük más repülőterek neveinek listája (lehet üres is)
  * @param  {String} airport
  * @returns {null}
  */
@@ -40,9 +41,8 @@ function addNode(airport) {
 }
 
 /**
- * Két repülőtér összekötése
+ * Két repülőtér kapcsolata
  * Mindegy hogy melyikről repülünk hova, a lényeg, hogy közük van egymáshoz,
- * építsük akkor itt ki a kapcsulatukat
  * @param  {String} origin
  * @param  {String} destination
  * @returns {null}
@@ -59,29 +59,31 @@ routes.forEach((route) => addEdge(...route));
 
 console.table(adjacencyList);
 
-// Van-e légi járat Phoenix (PHX) és Bangkok (BKK) között?
+// 2. Van-e légi járat Phoenix (PHX) és Bangkok (BKK) között?
 
 // Két megoldás létezik:
-// Gyors találat: DFS
 // Alapos elemzés: BFS
+// Gyors találat: DFS
 // Mindkét algoritmus O(v+e), ahol "v" a csomópontok száma és "e" a kapcsolatok száma
-//      - tehát lineáris algoritmus
+//      - tehát lineáris algoritmus, O(n)
 
 // BFS - Breath first search - kövessük le először az első "szintet", majd a következőt
-// Minden utat megvizsgálunk az adott ponthoz, így az optimális vagy alternatív útvonalat is tudunk vele keresni
+// Minden utat megvizsgálunk az adott ponthoz, így az optimális vagy alternatív útvonala(ka)t is tudunk vele találni
 // interjún érdemes elmagyarázni a bfs lényegét
 
 let steps = 0;
 
 function bfs(start) {
-  const queue = [start]; // lista, csak első item be, első item out
+  const queue = [start]; // queue csak egy lista, de első item be (.push()), első item out (.shift())
   const visited = new Set(); // kerüljük el a végtelen ciklust, jegyezzük fel, kinél voltunk már
 
   // ha queue.length több, mint egy, addíg
   while (queue.length) {
-    const airport = queue.shift();
-    const destinations = adjacencyList.get(airport);
+    const airport = queue.shift(); // szedjük le a megadott repteret, tároljuk el egy konstansba
+    const destinations = adjacencyList.get(airport); // tároljuk el a reptér légifolyosóit
 
+    // for in: indexeket (lista) vagy kulcsokat (objektum) ad vissza
+    // for of: elemeket vagy értékeket ad vissza
     for (const destination of destinations) {
       console.log(destination);
       steps++;
@@ -105,6 +107,7 @@ bfs("PHX");
 // Találjuk meg mihamarabb a célpontot
 
 steps = 0;
+
 function dfs(start, visited = new Set()) {
   console.log(start);
   visited.add(start);
