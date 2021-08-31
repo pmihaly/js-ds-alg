@@ -33,6 +33,7 @@ const adjacencyList = new Map();
 /**
  * Egy repülőteér inicializálása, egy repülőtér egy (talán üres) kulcs.
  * @param  {String} airport
+ * @returns {null}
  */
 function addNode(airport) {
   adjacencyList.set(airport, []);
@@ -44,6 +45,8 @@ function addNode(airport) {
  * építsük akkor itt ki a kapcsulatukat
  * @param  {String} origin
  * @param  {String} destination
+ * @returns {null}
+ *
  */
 function addEdge(origin, destination) {
   adjacencyList.get(origin).push(destination);
@@ -58,7 +61,64 @@ console.table(adjacencyList);
 
 // Van-e légi járat Phoenix (PHX) és Bangkok (BKK) között?
 
-// BFS - Breath first search
-// itt hagytam abba: https://youtu.be/cWNEl4HE2OE?t=355
+// Két megoldás létezik:
+// Gyors találat: DFS
+// Alapos elemzés: BFS
+// Mindkét algoritmus O(v+e), ahol "v" a csomópontok száma és "e" a kapcsolatok száma
+//      - tehát lineáris algoritmus
 
-// DFS
+// BFS - Breath first search - kövessük le először az első "szintet", majd a következőt
+// Minden utat megvizsgálunk az adott ponthoz, így az optimális vagy alternatív útvonalat is tudunk vele keresni
+// interjún érdemes elmagyarázni a bfs lényegét
+
+let steps = 0;
+
+function bfs(start) {
+  const queue = [start]; // lista, csak első item be, első item out
+  const visited = new Set(); // kerüljük el a végtelen ciklust, jegyezzük fel, kinél voltunk már
+
+  // ha queue.length több, mint egy, addíg
+  while (queue.length) {
+    const airport = queue.shift();
+    const destinations = adjacencyList.get(airport);
+
+    for (const destination of destinations) {
+      console.log(destination);
+      steps++;
+      if (destination === "BKK") {
+        console.log(`BFS found BKK in ${steps} steps`);
+      }
+
+      if (!visited.has(destination)) {
+        visited.add(destination);
+        queue.push(destination);
+      }
+    }
+  }
+}
+bfs("PHX");
+
+// DFS - Depth first search
+// Kövessünk végig egy útvonalat, aztán a következőt, aztán a következőt, ...,
+// amíg meg nem találtuk a célpontot
+// (rekurzív függvény)
+// Találjuk meg mihamarabb a célpontot
+
+steps = 0;
+function dfs(start, visited = new Set()) {
+  console.log(start);
+  visited.add(start);
+  steps++;
+
+  const destinations = adjacencyList.get(start);
+
+  for (const destination of destinations) {
+    if (destination === "BKK") {
+      console.log(`DFS found Bangkok ${steps} in steps`);
+      return;
+    }
+    if (!visited.has(destination)) dfs(destination, visited);
+  }
+}
+
+dfs("PHX");
