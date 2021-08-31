@@ -1,0 +1,23 @@
+{
+  "name": "js-ds-alg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01-fireship-graph-search.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmihaly/js-ds-alg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmihaly/js-ds-alg/issues"
+  },
+  "homepage": "https://github.com/pmihaly/js-ds-alg#readme",
+  "dependencies": {
+    "jest": "^27.1.0"
+  }
+}
