@@ -24,10 +24,11 @@ const sampleCompany = [
  * Megszámolja, hogy a cégben mennyi az alkalmazottak bérének összege
  * Rekurzívan meghívja magát, ha egy alkalmazottnak alkalmazottai van
  * @param   {Object} employees {name: alkalmazott név, salary: alkalmazott bér (szám), employees: alkalmazott alkalmazottai (lista)}
- * @param   {Number} expenses=0 Rekurzív függvényhíváshoz kell
  * @returns {Number} Alkalmazottak bérének összege
  */
-function calculateExpenses(employees, expenses = 0) {
+function calculateExpenses(employees) {
+  let expenses = 0;
+
   for (const employeeIndex in employees) {
     if (Object.hasOwnProperty.call(employees, employeeIndex)) {
       const employee = employees[employeeIndex];
@@ -44,5 +45,6 @@ function calculateExpenses(employees, expenses = 0) {
 
   return expenses;
 }
+
 console.log(calculateExpenses(sampleCompany));
 module.exports = { sampleCompany, calculateExpenses };
