@@ -1,4 +1,4 @@
-// codewars.com/r/b0fwFw
+// https://www.codewars.com/kata/54b42f9314d9229fd6000d9c
 // Alakítsunk át egy stringet egy másik stringre,
 // de minden karakter legyen "(", kivéve az ismétlődő karakterek,
 // azok legyenek ")".
